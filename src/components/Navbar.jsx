@@ -10,7 +10,7 @@ export default function Navbar() {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 p-4">
-      <nav className="mx-auto max-w-7xl rounded-2xl border border-white/10 bg-black/80 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+      <nav className="mx-auto max-w-7xl rounded-2xl border border-white/10 bg-black/80 backdrop-blur-md shadow-[0_10px_40px_rgba(59,130,246,0.3)]">
         <div className="flex h-16 items-center justify-between px-6">
           <div className="flex items-center">
             <Link href="/" className="text-2xl font-bold text-white">
