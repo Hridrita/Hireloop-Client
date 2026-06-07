@@ -27,14 +27,14 @@ export default function SignUpPage() {
   } = useForm({ resolver: zodResolver(signUpSchema) });
 
   const onSubmit = async(formData) => {
-    console.log("Form Data:", formData);
+    // console.log("Form Data:", formData);
 
     const {data,error} = await authClient.signUp.email({
         name: formData.name,
         email: formData.email,
         password: formData.password
     });
-    console.log("data:", data, "error", error);
+    // console.log("data:", data, "error", error);
 
     if (error) {
         toast.error(error.message || "Something went wrong!");
@@ -83,7 +83,7 @@ export default function SignUpPage() {
           }}
         >
           <h1 className="text-white text-xl font-bold mb-1 text-center">Create account</h1>
-          <p className="text-[#555] text-xs mb-5 text-center">Join thousands finding their dream jobs.</p>
+          <p className="text-gray-500 text-xs mb-5 text-center">Join thousands finding their dream jobs.</p>
 
           
           <button
@@ -104,7 +104,7 @@ export default function SignUpPage() {
           
           <div className="flex items-center gap-3 mb-4">
             <div className="flex-1 h-px bg-white/[0.08]" />
-            <span className="text-[#444] text-[11px]">or with email</span>
+            <span className="text-gray-500 text-[11px]">or with email</span>
             <div className="flex-1 h-px bg-white/[0.08]" />
           </div>
 
@@ -163,11 +163,11 @@ export default function SignUpPage() {
             </div>
 
             
-            <p className="text-[#444] text-[11px] leading-relaxed mt-1">
+            <p className="text-gray-500 text-[11px] leading-relaxed mt-1">
               By signing up, you agree to our{" "}
-              <Link href="/terms" className="text-violet-400 hover:underline">Terms of Service</Link>{" "}
+              <Link href="/" className="text-violet-400 hover:underline">Terms of Service</Link>{" "}
               and{" "}
-              <Link href="/privacy" className="text-violet-400 hover:underline">Privacy Policy</Link>.
+              <Link href="/" className="text-violet-400 hover:underline">Privacy Policy</Link>.
             </p>
 
             
@@ -181,8 +181,8 @@ export default function SignUpPage() {
             </button>
           </form>
 
-          <p className="text-center text-[#555] text-xs mt-5">
-            Already have an account?{" "}
+          <p className="text-center text-gray-500 text-xs mt-5">
+            Already member of hireloop?{" "}
             <Link href="/sign-in" className="text-violet-400 hover:text-violet-300 font-medium transition-colors">
               Sign in
             </Link>

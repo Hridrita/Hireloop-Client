@@ -26,13 +26,13 @@ export default function SignInPage() {
   } = useForm({ resolver: zodResolver(signInSchema) });
 
   const onSubmit = async (formData) => {
-    console.log("Form data", formData);
+    // console.log("Form data", formData);
 
    const {data,error} = await authClient.signIn.email({
       email: formData.email,
       password: formData.password,
     });
-    console.log("data:", data, "error", error);
+    // console.log("data:", data, "error", error);
     
     if(error){
         toast.error(error.message || "Something went wrong!")
@@ -81,7 +81,7 @@ export default function SignInPage() {
           }}
         >
           <h1 className="text-white text-xl font-bold mb-1 text-center">Welcome back</h1>
-          <p className="text-[#555] text-xs mb-5 text-center">Sign in to continue your job search.</p>
+          <p className="text-gray-500 text-xs mb-5 text-center">Sign in to continue your job search.</p>
 
           {/* Google */}
           <button
@@ -102,7 +102,7 @@ export default function SignInPage() {
           {/* divider */}
           <div className="flex items-center gap-3 mb-4">
             <div className="flex-1 h-px bg-white/[0.08]" />
-            <span className="text-[#444] text-[11px]">or with email</span>
+            <span className="text-gray-500 text-[11px]">or with email</span>
             <div className="flex-1 h-px bg-white/[0.08]" />
           </div>
 
@@ -168,8 +168,8 @@ export default function SignInPage() {
             </button>
           </form>
 
-          <p className="text-center text-[#555] text-xs mt-5">
-            Don't have an account?{" "}
+          <p className="text-center text-gray-500 text-xs mt-5">
+            New to hireloop?{" "}
             <Link href="/sign-up" className="text-violet-400 hover:text-violet-300 font-medium transition-colors">
               Create one
             </Link>

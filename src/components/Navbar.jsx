@@ -2,10 +2,16 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@heroui/react";
+import { Avatar, Button } from "@heroui/react";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
 
 export default function Navbar() {
+  const { data: session, isPending } = authClient.useSession();
+  //  console.log(session);
+
+  const user = session?.user;
+  console.log(user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -46,19 +52,44 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-6">
-            <Link
-              href="/sign-in"
-              className="text-violet-400 hover:text-white transition-colors font-medium"
-            >
-              Sign In
-            </Link>
-            <div className="h-6 w-[1px] bg-white/20"></div>
-            <Button
-              className="bg-gradient-to-tr from-blue-600 to-purple-600 text-white font-medium rounded-full px-6 shadow-[0_0_15px_rgba(124,58,237,0.3)]"
-              variant="flat"
-            >
-              Get Started
-            </Button>
+            {user ? (
+              <>
+                
+                  <Avatar>
+                    <Avatar.Image alt="John Doe" src={user.image} />
+                    <Avatar.Fallback className="bg-violet-400 text-white font-bold">
+                      {user.name.charAt(0).toUpperCase()}
+                    </Avatar.Fallback>
+                  </Avatar>
+                
+                
+                  <Link
+                    href="/sign-in"
+                    className="text-violet-400 hover:text-white transition-colors font-medium"
+                  >
+                    Sign out
+                  </Link>
+                
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/sign-in"
+                  className="text-violet-400 hover:text-white transition-colors font-medium"
+                >
+                  Sign In
+                </Link>
+                <div className="h-6 w-[1px] bg-white/20"></div>
+                <Link href={"/sign-up"}>
+                  <Button
+                    className="bg-gradient-to-tr from-blue-600 to-purple-600 text-white font-medium rounded-full px-6 shadow-[0_0_15px_rgba(124,58,237,0.3)]"
+                    variant="flat"
+                  >
+                    Get Started
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           <button
