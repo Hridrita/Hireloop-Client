@@ -1,0 +1,68 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@heroui/react";
+
+export default function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 p-4">
+      <nav className="mx-auto max-w-7xl rounded-2xl border border-white/10 bg-black/80 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+        <div className="flex h-16 items-center justify-between px-6">
+          
+          
+          <div className="flex items-center">
+            <Link href="/" className="text-2xl font-bold text-white">
+              hireloop
+            </Link>
+          </div>
+
+         
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="/browse-jobs" className="text-gray-300 hover:text-blue-400 transition-colors">Browse Jobs</Link>
+            <Link href="/company" className="text-gray-300 hover:text-blue-400 transition-colors">Company</Link>
+            <Link href="/pricing" className="text-gray-300 hover:text-blue-400 transition-colors">Pricing</Link>
+          </div>
+
+          
+          <div className="hidden md:flex items-center gap-6">
+            <Link href="/sign-in" className="text-violet-400 hover:text-white transition-colors font-medium">
+              Sign In
+            </Link>
+            <div className="h-6 w-[1px] bg-white/20"></div>
+            <Button 
+              className="bg-gradient-to-tr from-blue-600 to-purple-600 text-white font-medium rounded-full px-6 shadow-[0_0_15px_rgba(124,58,237,0.3)]"
+              variant="flat"
+            >
+              Get Started
+            </Button>
+          </div>
+
+          
+          <button className="md:hidden p-2 text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? "✕" : "☰"}
+          </button>
+        </div>
+
+        
+        {isMenuOpen && (
+          <div className="md:hidden border-t border-white/10 p-6 flex flex-col gap-4 text-white animate-in slide-in-from-top-4">
+            <Link href="/browse-jobs" onClick={() => setIsMenuOpen(false)}>Browse Jobs</Link>
+            <Link href="/company" onClick={() => setIsMenuOpen(false)}>Company</Link>
+            <Link href="/pricing" onClick={() => setIsMenuOpen(false)}>Pricing</Link>
+            <hr className="border-white/10" />
+            <Link href="/sign-in" onClick={() => setIsMenuOpen(false)}>Sign In</Link>
+            <Button 
+              className="bg-gradient-to-tr from-blue-600 to-purple-600 text-white font-medium rounded-full" 
+              fullWidth
+            >
+              Get Started
+            </Button>
+          </div>
+        )}
+      </nav>
+    </div>
+  );
+}
