@@ -3,20 +3,19 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeSlash, Person, Envelope, Lock } from "@gravity-ui/icons";
+import { Eye, EyeSlash, Envelope, Lock } from "@gravity-ui/icons";
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import Image from "next/image";
-import { authClient } from "@/lib/auth-client";
 import toast, { Toaster } from "react-hot-toast";
 import { redirect } from "next/navigation";
 
-const signUpSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+const signInSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(1, "Password is required"),
 });
 
-export default function SignUpPage() {
+export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
@@ -24,27 +23,26 @@ export default function SignUpPage() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm({ resolver: zodResolver(signUpSchema) });
+  } = useForm({ resolver: zodResolver(signInSchema) });
 
-  const onSubmit = async(formData) => {
-    console.log("Form Data:", formData);
+  const onSubmit = async (formData) => {
+    console.log("Form data", formData);
 
-    const {data,error} = await authClient.signUp.email({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password
+   const {data,error} = await authClient.signIn.email({
+      email: formData.email,
+      password: formData.password,
     });
     console.log("data:", data, "error", error);
-
-    if (error) {
-        toast.error(error.message || "Something went wrong!");
+    
+    if(error){
+        toast.error(error.message || "Something went wrong!")
     } else {
-        toast.success("Signup successful!");
-        redirect("/sign-in");
+        toast.success("Login successful!");
+        redirect("/");
     }
   };
 
-  
+
 
   return (
     <main className="min-h-screen bg-[#0d0d0d] flex items-center justify-center px-4 relative">
@@ -67,25 +65,25 @@ export default function SignUpPage() {
       <div className="relative z-10 w-full max-w-[400px]">
 
         
-        <div className="flex justify-center mb-7 mt-30">
+        <div className="flex justify-center mb-7 mt-20">
           <Link href="/">
             <Image src="/images/logo.png" alt="HireLoop" width={120} height={40} priority />
           </Link>
         </div>
 
-        
+       
         <div
-          className="rounded-2xl p-7 backdrop-blur-xl mb-10"
+          className="rounded-2xl p-7 backdrop-blur-xl"
           style={{
             background: "linear-gradient(135deg, rgba(255,255,255,0.11) 0%, rgba(255,255,255,0.05) 100%)",
             border: "0.5px solid rgba(255,255,255,0.12)",
             boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)",
           }}
         >
-          <h1 className="text-white text-xl font-bold mb-1 text-center">Create account</h1>
-          <p className="text-[#555] text-xs mb-5 text-center">Join thousands finding their dream jobs.</p>
+          <h1 className="text-white text-xl font-bold mb-1 text-center">Welcome back</h1>
+          <p className="text-[#555] text-xs mb-5 text-center">Sign in to continue your job search.</p>
 
-          
+          {/* Google */}
           <button
             
             disabled={googleLoading}
@@ -101,34 +99,22 @@ export default function SignUpPage() {
             {googleLoading ? "Redirecting..." : "Continue with Google"}
           </button>
 
-          
+          {/* divider */}
           <div className="flex items-center gap-3 mb-4">
             <div className="flex-1 h-px bg-white/[0.08]" />
             <span className="text-[#444] text-[11px]">or with email</span>
             <div className="flex-1 h-px bg-white/[0.08]" />
           </div>
 
-          
+          {/* form */}
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2.5">
 
-            
+            {/* Email */}
             <div>
-              <div className="relative flex items-center rounded-xl px-4 py-3 focus-within:border-violet-500/60 transition-colors"
-                style={{ background: "rgba(255,255,255,0.04)", border: "0.5px solid rgba(255,255,255,0.1)" }}>
-                <Person className="w-4 h-4 text-[#555] shrink-0" />
-                <input
-                  {...register("name")}
-                  placeholder="Full Name"
-                  className="w-full bg-transparent outline-none text-[#ccc] text-sm pl-2.5 placeholder:text-[#3a3a3a]"
-                />
-              </div>
-              {errors.name && <p className="text-red-400 text-xs mt-1 pl-1">{errors.name.message}</p>}
-            </div>
-
-            
-            <div>
-              <div className="relative flex items-center rounded-xl px-4 py-3 focus-within:border-violet-500/60 transition-colors"
-                style={{ background: "rgba(255,255,255,0.04)", border: "0.5px solid rgba(255,255,255,0.1)" }}>
+              <div
+                className="flex items-center rounded-xl px-4 py-3 focus-within:border-violet-500/60 transition-colors"
+                style={{ background: "rgba(255,255,255,0.04)", border: "0.5px solid rgba(255,255,255,0.1)" }}
+              >
                 <Envelope className="w-4 h-4 text-[#555] shrink-0" />
                 <input
                   {...register("email")}
@@ -140,16 +126,18 @@ export default function SignUpPage() {
               {errors.email && <p className="text-red-400 text-xs mt-1 pl-1">{errors.email.message}</p>}
             </div>
 
-            
+            {/* Password */}
             <div>
-              <div className="relative flex items-center rounded-xl px-4 py-3 focus-within:border-violet-500/60 transition-colors"
-                style={{ background: "rgba(255,255,255,0.04)", border: "0.5px solid rgba(255,255,255,0.1)" }}>
+              <div
+                className="flex items-center rounded-xl px-4 py-3 focus-within:border-violet-500/60 transition-colors"
+                style={{ background: "rgba(255,255,255,0.04)", border: "0.5px solid rgba(255,255,255,0.1)" }}
+              >
                 <Lock className="w-4 h-4 text-[#555] shrink-0" />
                 <input
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
                   placeholder="Password"
-                  className="w-full bg-transparent outline-none text-[#ccc] text-sm pl-2.5 pr-2 placeholder:text-[#3a3a3a] [&::-ms-reveal]:hidden [&::-webkit-contacts-auto-fill-button]:hidden [&::-webkit-credentials-auto-fill-button]:hidden"
+                  className="w-full bg-transparent outline-none text-[#ccc] text-sm pl-2.5 pr-2 placeholder:text-[#3a3a3a] [&::-ms-reveal]:hidden [&::-webkit-credentials-auto-fill-button]:hidden"
                 />
                 <button
                   type="button"
@@ -162,29 +150,28 @@ export default function SignUpPage() {
               {errors.password && <p className="text-red-400 text-xs mt-1 pl-1">{errors.password.message}</p>}
             </div>
 
-            
-            <p className="text-[#444] text-[11px] leading-relaxed mt-1">
-              By signing up, you agree to our{" "}
-              <Link href="/terms" className="text-violet-400 hover:underline">Terms of Service</Link>{" "}
-              and{" "}
-              <Link href="/privacy" className="text-violet-400 hover:underline">Privacy Policy</Link>.
-            </p>
+            {/* forgot password */}
+            <div className="flex justify-end">
+              <Link href="/forgot-password" className="text-violet-400 hover:text-violet-300 text-[11px] transition-colors">
+                Forgot password?
+              </Link>
+            </div>
 
-            
+            {/* submit */}
             <button
               type="submit"
               disabled={isSubmitting}
               className="w-full py-3 rounded-xl text-white text-sm font-semibold transition-all cursor-pointer hover:opacity-90 active:scale-[0.98] disabled:opacity-60 mt-1"
               style={{ background: "linear-gradient(135deg, #5b2fc9, #7c3aed)" }}
             >
-              {isSubmitting ? "Creating account..." : "Create Account"}
+              {isSubmitting ? "Signing in..." : "Sign In"}
             </button>
           </form>
 
           <p className="text-center text-[#555] text-xs mt-5">
-            Already have an account?{" "}
-            <Link href="/sign-in" className="text-violet-400 hover:text-violet-300 font-medium transition-colors">
-              Sign in
+            Don't have an account?{" "}
+            <Link href="/sign-up" className="text-violet-400 hover:text-violet-300 font-medium transition-colors">
+              Create one
             </Link>
           </p>
         </div>
