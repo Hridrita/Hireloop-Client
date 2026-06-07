@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Avatar, Button } from "@heroui/react";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const { data: session, isPending } = authClient.useSession();
@@ -13,6 +15,19 @@ export default function Navbar() {
   const user = session?.user;
   console.log(user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
+
+  const handleSignOut = async(e)=>{
+    e.preventDefault();
+    await authClient.signOut({
+  fetchOptions: {
+    onSuccess: () => {
+        router.refresh();
+      router.push("/sign-in");
+    },
+  },
+});
+  }
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 p-4">
@@ -64,7 +79,8 @@ export default function Navbar() {
                 
                 
                   <Link
-                    href="/sign-in"
+                  href={"/sign-in"}
+                  onClick={handleSignOut}
                     className="text-violet-400 hover:text-white transition-colors font-medium"
                   >
                     Sign out
