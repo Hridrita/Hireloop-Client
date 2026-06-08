@@ -71,9 +71,9 @@ export default function Navbar() {
               <>
                 
                   <Avatar>
-                    <Avatar.Image alt="John Doe" src={user.image} />
+                    <Avatar.Image alt="John Doe" src={user?.image} />
                     <Avatar.Fallback className="bg-violet-400 text-white font-bold">
-                      {user.name.charAt(0).toUpperCase()}
+                      {user?.name.charAt(0).toUpperCase()}
                     </Avatar.Fallback>
                   </Avatar>
                 
