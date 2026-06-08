@@ -7,6 +7,7 @@ import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const { data: session, isPending } = authClient.useSession();
@@ -15,7 +16,10 @@ export default function Navbar() {
   const user = session?.user;
   console.log(user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
   const router = useRouter();
+
+  if (pathname.startsWith("/dashboard")) return null;
 
   const handleSignOut = async(e)=>{
     e.preventDefault();

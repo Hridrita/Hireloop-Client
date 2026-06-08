@@ -225,7 +225,7 @@ export default function SignUpPage() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <Label>Subscription plan</Label>
+              <Label>How would you like to join HireLoop?</Label>
               <Controller
                 name="role"
                 control={control}

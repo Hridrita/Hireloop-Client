@@ -1,8 +1,12 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import { FaFacebook, FaPinterest, FaLinkedin } from "react-icons/fa"; // react-icons ইনস্টল করে নিতে পারেন
+import { usePathname } from "next/navigation";
+import { FaFacebook, FaPinterest, FaLinkedin } from "react-icons/fa"; 
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname.startsWith("/dashboard")) return null;
   return (
     <footer className="bg-black text-gray-400  py-16 px-6 border-t border-white/10">
       <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-5 gap-12">
