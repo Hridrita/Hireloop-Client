@@ -6,6 +6,7 @@ import {
     Magnifier,
     Star,
 } from "@gravity-ui/icons";
+import { motion } from "motion/react"
 
 export default function StatsSection() {
     const stats = [
@@ -35,28 +36,46 @@ export default function StatsSection() {
                 </div>
 
                 
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                <motion.div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4"
+                initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.12 } },
+          }}>
                     {stats.map((stat) => (
-                        <div
+                        <motion.div
                             key={stat.id}
-                            className="group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40 p-8 backdrop-blur-md transition duration-300 hover:border-violet-500/30"
+                            variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
+              }}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                            className="group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40 p-8 backdrop-blur-md transition-colors duration-300 hover:border-violet-500/30 cursor-default"
                         >
                             <div className="absolute bottom-0 right-0 h-32 w-32 rounded-full bg-white/5 blur-3xl transition duration-300 group-hover:bg-violet-500/10" />
                             
-                            <div className="relative z-10 text-white/90">
+                            <motion.div className="relative z-10 text-white/90"
+                            whileHover={{ scale: 1.2 }}
+                transition={{ type: "spring", stiffness: 300 }}>
                                 {stat.icon}
-                            </div>
+                            </motion.div>
                             
-                            <h3 className="relative z-10 mt-10 text-5xl font-bold tracking-tight">
+                            <motion.h3 className="relative z-10 mt-10 text-5xl font-bold tracking-tight"
+                            variants={{
+                  hidden: { opacity: 0, scale: 0.8 },
+                  visible: { opacity: 1, scale: 1, transition: { duration: 0.4, delay: 0.15 } },
+                }}>
                                 {stat.value}
-                            </h3>
+                            </motion.h3>
                             
                             <p className="relative z-10 mt-4 text-base text-gray-300">
                                 {stat.label}
                             </p>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     );
