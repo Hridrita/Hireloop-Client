@@ -68,6 +68,13 @@ export default function Navbar() {
             >
               Pricing
             </Link>
+
+            {user ? (<Link
+              href="/dashboard/recruiter"
+              className="text-gray-300 hover:text-blue-400 transition-colors"
+            >
+              Dashboard
+            </Link>) : ("")}
           </div>
 
           <div className="hidden md:flex items-center gap-6">
