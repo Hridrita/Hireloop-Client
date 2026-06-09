@@ -1,11 +1,32 @@
 "use client";
-
 import { useState, forwardRef, useImperativeHandle } from "react";
-import { House, Magnifier, Bell, Envelope, Person, Gear, Xmark } from "@gravity-ui/icons";
+import {
+  House,
+  Magnifier,
+  Bell,
+  Envelope,
+  Person,
+  Gear,
+  Xmark,
+} from "@gravity-ui/icons";
 import Image from "next/image";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+import { Spinner } from "@heroui/react";
 
 export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
+  const { data: session, isPending } = authClient.useSession();
+
+  if (isPending) {
+    return (
+      <div className="flex items-center gap-2 text-white/50 text-sm">
+        <Spinner size="sm" />
+        Loading...
+      </div>
+    );
+  }
+  const user = session?.user;
+
   const navItems = [
     { icon: House, label: "Home", href: "/" },
     { icon: Magnifier, label: "Search", href: "/browse-jobs" },
@@ -26,6 +47,17 @@ export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
           <Xmark className="w-5 h-5" />
         </button>
       </div>
+      <div className="flex items-center gap-3 px-5 py-4 border-b border-white/10">
+        <div className="w-9 h-9 rounded-full bg-violet-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
+          {user?.name?.charAt(0).toUpperCase()}
+        </div>
+        <div className="flex flex-col min-w-0">
+          <span className="text-white text-sm font-medium truncate">
+            {user?.name}
+          </span>
+          <span className="text-white/40 text-xs truncate">{user?.email}</span>
+        </div>
+      </div>
       <nav className="flex flex-col gap-1 p-3 mt-2">
         {navItems.map((item) => (
           <Link
@@ -44,7 +76,6 @@ export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
 
   return (
     <>
-      
       {isOpen && (
         <div
           className="lg:hidden fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
@@ -52,7 +83,6 @@ export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
         />
       )}
 
-      
       <div
         className={`lg:hidden fixed top-0 left-0 h-full w-64 bg-[#0d0d0d] border-r border-white/10 z-50 transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
@@ -61,7 +91,6 @@ export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
         <SidebarContent />
       </div>
 
-      {/* desktop sidebar */}
       <div className="hidden lg:flex flex-col fixed top-0 left-0 h-full w-64 bg-[#0d0d0d] border-r border-white/10 z-30">
         <SidebarContent />
       </div>
