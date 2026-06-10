@@ -1,32 +1,70 @@
 "use client";
 import { z } from "zod";
-import { Modal, Button, TextField, Label, Input, Surface } from "@heroui/react";
+import {
+  Modal,
+  Button,
+  TextField,
+  Label,
+  Input,
+  Surface,
+  Switch
+} from "@heroui/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { createJob } from "@/lib/actions/jobs";
+import toast from "react-hot-toast";
 
 const jobSchema = z.object({
   title: z.string().min(3, "Job title must be at least 3 characters"),
   category: z.string().min(2, "Category is required"),
   jobType: z.string().min(2, "Job type is required"),
   salaryRange: z.string().min(1, "Salary range is required"),
-  location: z.string().min(2, "Location is required"),
+  location: z.string().optional(),
   date: z.string().min(1, "Deadline is required"),
   responsibilities: z.string().min(20, "Please describe responsibilities"),
   requirements: z.string().min(20, "Please describe requirements"),
   benefits: z.string().optional(),
-});
+  isRemote: z.boolean().default(false),
+}).refine(
+  (data) => {
+   
+    if (!data.isRemote && !data.location) {
+      return false;
+    }
+    return true;
+  },
+  {
+    message: "Location is required for non-remote roles",
+    path: ["location"],
+  }
+);
 
 export default function NewJobPostForm({ isOpen, onClose }) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm({ resolver: zodResolver(jobSchema) });
+    setValue,
+  } = useForm({
+    resolver: zodResolver(jobSchema),
+    defaultValues: { isRemote: false },
+  });
+
+  const isRemote = watch("isRemote");
 
   const onSubmit = async (formData) => {
+     if (formData.isRemote) {
+    formData.location = "Remote";
+  }
     console.log("job post formdata:", formData);
-    // API call here
+    
+    const res = await createJob(formData);
+
+    if(res.insertedId){
+      toast.success("Job posted successfully!")
+    }
     reset();
     onClose();
   };
@@ -75,7 +113,6 @@ export default function NewJobPostForm({ isOpen, onClose }) {
                       <select
                         {...register("category")}
                         className="w-full px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
-                        style={{ colorScheme: "dark" }}
                       >
                         <option value="">Select category</option>
                         <option value="Technology">Technology</option>
@@ -83,9 +120,6 @@ export default function NewJobPostForm({ isOpen, onClose }) {
                         <option value="Marketing">Marketing</option>
                         <option value="Finance">Finance</option>
                         <option value="Sales">Sales</option>
-                        <option value="HR">HR</option>
-                        <option value="Operations">Operations</option>
-                        <option value="Legal">Legal</option>
                       </select>
                       {errors.category && (
                         <p className="text-red-400 text-xs mt-1">
@@ -99,7 +133,6 @@ export default function NewJobPostForm({ isOpen, onClose }) {
                       <select
                         {...register("jobType")}
                         className="w-full px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
-                        style={{ colorScheme: "dark" }}
                       >
                         <option value="">Select type</option>
                         <option value="Full-time">Full-time</option>
@@ -117,9 +150,7 @@ export default function NewJobPostForm({ isOpen, onClose }) {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <TextField className="w-full" variant="secondary">
-                      <Label className="text-zinc-400 text-sm">
-                        Salary Range
-                      </Label>
+                      <Label className="text-zinc-400 text-sm">Salary Range</Label>
                       <Input
                         {...register("salaryRange")}
                         className="bg-[#1c1c1e] border-zinc-800 text-white"
@@ -133,11 +164,28 @@ export default function NewJobPostForm({ isOpen, onClose }) {
                     </TextField>
 
                     <TextField className="w-full" variant="secondary">
-                      <Label className="text-zinc-400 text-sm">Location</Label>
+                      <div className="flex justify-between items-center mb-2">
+                        <Label className="text-zinc-400 text-sm">Location</Label>
+                        <Switch
+                          aria-label="Enable notifications"
+                          isSelected={isRemote}
+                          onChange={(e) => setValue("isRemote", e)}
+                          size="sm"
+                        >
+                          <Switch.Control >
+                            <Switch.Thumb  />
+                          </Switch.Control>
+                          <Switch.Content>
+                            <Label className="text-xs text-zinc-400 font-medium">Remote</Label>
+                          </Switch.Content>
+                        </Switch>
+                      </div>
+
                       <Input
                         {...register("location")}
-                        className="bg-[#1c1c1e] border-zinc-800 text-white"
-                        placeholder="e.g. Remote / Dhaka"
+                        disabled={isRemote}
+                        className={`bg-[#1c1c1e] border-zinc-800 text-white ${isRemote ? "opacity-50" : ""}`}
+                        placeholder={isRemote ? "Remote" : "e.g. Dhaka, Bangladesh"}
                       />
                       {errors.location && (
                         <p className="text-red-400 text-xs mt-1">
@@ -148,9 +196,7 @@ export default function NewJobPostForm({ isOpen, onClose }) {
                   </div>
 
                   <TextField className="w-full" variant="secondary">
-                    <Label className="text-zinc-400 text-sm">
-                      Application Deadline
-                    </Label>
+                    <Label className="text-zinc-400 text-sm">Application Deadline</Label>
                     <Input
                       {...register("date")}
                       type="date"
@@ -164,9 +210,7 @@ export default function NewJobPostForm({ isOpen, onClose }) {
                   </TextField>
 
                   <TextField className="w-full" variant="secondary">
-                    <Label className="text-zinc-400 text-sm">
-                      Responsibilities
-                    </Label>
+                    <Label className="text-zinc-400 text-sm">Responsibilities</Label>
                     <textarea
                       {...register("responsibilities")}
                       className="w-full h-24 px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
@@ -180,9 +224,7 @@ export default function NewJobPostForm({ isOpen, onClose }) {
                   </TextField>
 
                   <TextField className="w-full" variant="secondary">
-                    <Label className="text-zinc-400 text-sm">
-                      Requirements
-                    </Label>
+                    <Label className="text-zinc-400 text-sm">Requirements</Label>
                     <textarea
                       {...register("requirements")}
                       className="w-full h-24 px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
@@ -196,9 +238,7 @@ export default function NewJobPostForm({ isOpen, onClose }) {
                   </TextField>
 
                   <TextField className="w-full" variant="secondary">
-                    <Label className="text-zinc-400 text-sm">
-                      Benefits (Optional)
-                    </Label>
+                    <Label className="text-zinc-400 text-sm">Benefits (Optional)</Label>
                     <textarea
                       {...register("benefits")}
                       className="w-full h-24 px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
