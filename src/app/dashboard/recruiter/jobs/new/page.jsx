@@ -1,9 +1,36 @@
-'use client';
-
-import React from "react";
+"use client";
+import { z } from "zod";
 import { Modal, Button, TextField, Label, Input, Surface } from "@heroui/react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const jobSchema = z.object({
+  title: z.string().min(3, "Job title must be at least 3 characters"),
+  category: z.string().min(2, "Category is required"),
+  jobType: z.string().min(2, "Job type is required"),
+  salaryRange: z.string().min(1, "Salary range is required"),
+  location: z.string().min(2, "Location is required"),
+  date: z.string().min(1, "Deadline is required"),
+  responsibilities: z.string().min(20, "Please describe responsibilities"),
+  requirements: z.string().min(20, "Please describe requirements"),
+  benefits: z.string().optional(),
+});
 
 export default function NewJobPostForm({ isOpen, onClose }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm({ resolver: zodResolver(jobSchema) });
+
+  const onSubmit = async (formData) => {
+    console.log("job post formdata:", formData);
+    // API call here
+    reset();
+    onClose();
+  };
+
   return (
     <Modal isOpen={isOpen} onOpenChange={onClose}>
       <Modal.Backdrop>
@@ -22,71 +49,102 @@ export default function NewJobPostForm({ isOpen, onClose }) {
 
             <Modal.Body className="px-6 py-4">
               <Surface variant="default" className="bg-transparent shadow-none">
-                <form id="jobForm" className="flex flex-col gap-4">
-                  {/* Job Title */}
+                <form id="jobForm" onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+
+                  {/* Title */}
                   <TextField className="w-full" variant="secondary">
                     <Label className="text-zinc-400 text-sm">Job Title</Label>
-                    <Input className="bg-[#1c1c1e] border-zinc-800 text-white" placeholder="e.g. Senior Frontend Engineer" />
+                    <Input
+                      {...register("title")}
+                      className="bg-[#1c1c1e] border-zinc-800 text-white"
+                      placeholder="e.g. Senior Frontend Engineer"
+                    />
+                    {errors.title && <p className="text-red-400 text-xs mt-1">{errors.title.message}</p>}
                   </TextField>
 
-                  {/* Category & Type Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <TextField className="w-full" variant="secondary">
                       <Label className="text-zinc-400 text-sm">Category</Label>
-                      <Input className="bg-[#1c1c1e] border-zinc-800 text-white" placeholder="e.g. Technology" />
+                      <Input
+                        {...register("category")}
+                        className="bg-[#1c1c1e] border-zinc-800 text-white"
+                        placeholder="e.g. Technology"
+                      />
+                      {errors.category && <p className="text-red-400 text-xs mt-1">{errors.category.message}</p>}
                     </TextField>
+
                     <TextField className="w-full" variant="secondary">
                       <Label className="text-zinc-400 text-sm">Job Type</Label>
-                      <Input className="bg-[#1c1c1e] border-zinc-800 text-white" placeholder="Full-time" />
+                      <Input
+                        {...register("jobType")}
+                        className="bg-[#1c1c1e] border-zinc-800 text-white"
+                        placeholder="Full-time"
+                      />
+                      {errors.jobType && <p className="text-red-400 text-xs mt-1">{errors.jobType.message}</p>}
                     </TextField>
                   </div>
 
-                  {/* Salary & Location */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <TextField className="w-full" variant="secondary">
                       <Label className="text-zinc-400 text-sm">Salary Range</Label>
-                      <Input className="bg-[#1c1c1e] border-zinc-800 text-white" placeholder="e.g. 50k - 80k" />
+                      <Input
+                        {...register("salaryRange")}
+                        className="bg-[#1c1c1e] border-zinc-800 text-white"
+                        placeholder="e.g. 50k - 80k"
+                      />
+                      {errors.salaryRange && <p className="text-red-400 text-xs mt-1">{errors.salaryRange.message}</p>}
                     </TextField>
+
                     <TextField className="w-full" variant="secondary">
                       <Label className="text-zinc-400 text-sm">Location</Label>
-                      <Input className="bg-[#1c1c1e] border-zinc-800 text-white" placeholder="e.g. Remote / Dhaka" />
+                      <Input
+                        {...register("location")}
+                        className="bg-[#1c1c1e] border-zinc-800 text-white"
+                        placeholder="e.g. Remote / Dhaka"
+                      />
+                      {errors.location && <p className="text-red-400 text-xs mt-1">{errors.location.message}</p>}
                     </TextField>
                   </div>
 
-                  <div className="">
-  <TextField className="w-full" variant="secondary">
-    <Label className="text-zinc-400 text-sm">Application Deadline</Label>
-    <Input 
-      type="date" 
-      className="bg-[#1c1c1e] border-zinc-800 text-zinc-400" 
-    />
-  </TextField>
-</div>
+                  <TextField className="w-full" variant="secondary">
+                    <Label className="text-zinc-400 text-sm">Application Deadline</Label>
+                    <Input
+                      {...register("date")}
+                      type="date"
+                      className="bg-[#1c1c1e] border-zinc-800 text-zinc-400"
+                    />
+                    {errors.date && <p className="text-red-400 text-xs mt-1">{errors.date.message}</p>}
+                  </TextField>
 
-                  {/* Responsibilities */}
                   <TextField className="w-full" variant="secondary">
                     <Label className="text-zinc-400 text-sm">Responsibilities</Label>
-                    <textarea 
+                    <textarea
+                      {...register("responsibilities")}
                       className="w-full h-24 px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
-                      placeholder="Outline the core everyday responsibilities for this role..."
+                      placeholder="Outline the core everyday responsibilities..."
                     />
+                    {errors.responsibilities && <p className="text-red-400 text-xs mt-1">{errors.responsibilities.message}</p>}
                   </TextField>
 
                   <TextField className="w-full" variant="secondary">
                     <Label className="text-zinc-400 text-sm">Requirements</Label>
-                    <textarea 
+                    <textarea
+                      {...register("requirements")}
                       className="w-full h-24 px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
                       placeholder="List required experience, skills and certifications..."
                     />
+                    {errors.requirements && <p className="text-red-400 text-xs mt-1">{errors.requirements.message}</p>}
                   </TextField>
 
                   <TextField className="w-full" variant="secondary">
-                    <Label className="text-zinc-400 text-sm">Benefits(Optional)</Label>
-                    <textarea 
+                    <Label className="text-zinc-400 text-sm">Benefits (Optional)</Label>
+                    <textarea
+                      {...register("benefits")}
                       className="w-full h-24 px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
                       placeholder="Perks, healthcare, equity, remote stipends..."
                     />
                   </TextField>
+
                 </form>
               </Surface>
             </Modal.Body>
@@ -100,10 +158,11 @@ export default function NewJobPostForm({ isOpen, onClose }) {
               </Button>
               <Button
                 form="jobForm"
-                className="w-full sm:w-auto flex-1 text-base bg-white hover:bg-zinc-200 font-bold text-black rounded-xl"
                 type="submit"
+                disabled={isSubmitting}
+                className="w-full sm:w-auto flex-1 text-base bg-white hover:bg-zinc-200 font-bold text-black rounded-xl disabled:opacity-60"
               >
-                Post Job
+                {isSubmitting ? "Posting..." : "Post Job"}
               </Button>
             </Modal.Footer>
           </Modal.Dialog>
