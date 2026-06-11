@@ -4,6 +4,7 @@ import {
   House,
   Magnifier,
   Bell,
+  Briefcase,
   Envelope,
   Person,
   Gear,
@@ -29,8 +30,8 @@ export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
 
   const navItems = [
     { icon: House, label: "Home", href: "/" },
-    { icon: Magnifier, label: "Search", href: "/browse-jobs" },
-    { icon: Bell, label: "Notifications", href: "/dashboard/notifications" },
+    { icon: Magnifier, label: "jobs", href: "/dashboard/recruiter/jobs" },
+    { icon: Briefcase, label: "Company Profile", href: "/dashboard/recruiter/company" },
     { icon: Envelope, label: "Messages", href: "/dashboard/messages" },
     { icon: Person, label: "Profile", href: "/dashboard/profile" },
     { icon: Gear, label: "Settings", href: "/dashboard/settings" },
