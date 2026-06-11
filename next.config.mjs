@@ -4,7 +4,7 @@ const nextConfig = {
   reactCompiler: true,
   output: 'standalone',
   experimental: {
-    serverComponentsExternalPackages: ['@better-auth/kysely-adapter', 'kysely'],
+    serverExternalPackages: ['@better-auth/kysely-adapter', 'kysely'],
   },
 };
 
