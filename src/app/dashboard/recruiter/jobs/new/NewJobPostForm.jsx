@@ -42,12 +42,7 @@ const jobSchema = z
     },
   );
 
-export default function NewJobPostForm({ isOpen, onClose }) {
-  const [mockCompany] = useState({
-        name: "Acme Corp (Auto-filled)",
-        id: "company_123",
-        isApproved: true,
-    });
+export default function NewJobPostForm({ isOpen, onClose, company }) {
   const {
     register,
     handleSubmit,
@@ -70,7 +65,9 @@ export default function NewJobPostForm({ isOpen, onClose }) {
 
     const payload = {
             ...formData,
-            companyId: mockCompany.id,
+            companyId: company._id,
+            companyName:company.name,
+            companyLogo:company.logo,
             status: "active",
             isPubliclyVisible: true,
         };
@@ -101,10 +98,12 @@ export default function NewJobPostForm({ isOpen, onClose }) {
               </p>
 
                <div className="mt-4 inline-flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-zinc-400">
-                        <Briefcase size={14} className="text-zinc-500" />
-                        Posting as: <span className="font-semibold text-zinc-300">{mockCompany.name}</span>
-                        <span className="text-emerald-500 font-medium bg-emerald-950/30 px-1.5 py-0.5 rounded border border-emerald-900/50">Approved</span>
-                    </div>
+    <Briefcase size={14} className="text-zinc-500" />
+    Posting as: <span className="font-semibold text-zinc-300">{company?.name}</span>
+    {company?.status === 'Approved' && (
+        <span className="text-emerald-500 font-medium bg-emerald-950/30 px-1.5 py-0.5 rounded border border-emerald-900/50">Approved</span>
+    )}
+</div>
             </Modal.Header>
 
             <Modal.Body className="px-6 py-4">

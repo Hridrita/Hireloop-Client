@@ -4,10 +4,10 @@ import { getRecruiterCompany } from '@/lib/api/companies';
 
 const CompanyPage = async() => {
     const user = await getUserSession();
-    console.log("user session in companypage:", user);
+    // console.log("user session in companypage:", user);
 
     const company = await getRecruiterCompany(user?.id);
-    console.log("company from db:", company);
+    // console.log("company from db:", company);
     return (
         <div>
             <CompanyProfile recruiter={user} recruiterCompany={company}></CompanyProfile>

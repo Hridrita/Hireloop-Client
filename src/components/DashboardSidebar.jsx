@@ -9,6 +9,7 @@ import {
   Person,
   Gear,
   Xmark,
+  Dice4
 } from "@gravity-ui/icons";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,7 +31,8 @@ export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
 
   const navItems = [
     { icon: House, label: "Home", href: "/" },
-    { icon: Magnifier, label: "jobs", href: "/dashboard/recruiter/jobs" },
+    { icon: Dice4, label: "Dashboard", href: "/dashboard/recruiter" },
+    { icon: Magnifier, label: "Jobs", href: "/dashboard/recruiter/jobs" },
     { icon: Briefcase, label: "Company Profile", href: "/dashboard/recruiter/company" },
     { icon: Envelope, label: "Messages", href: "/dashboard/messages" },
     { icon: Person, label: "Profile", href: "/dashboard/profile" },

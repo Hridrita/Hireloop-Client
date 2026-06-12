@@ -110,7 +110,7 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
             recruiterId: recruiter.id 
         };
         // setCompany(newCompanyData);
-        console.log("submitted company profile:", newCompanyData);
+        // console.log("submitted company profile:", newCompanyData);
 
         const payload = company?._id 
     ? await updateCompany(company._id, newCompanyData)

@@ -6,8 +6,8 @@ const PostJobPage = async() => {
     const user = await getUserSession();
         // console.log("user session in post job page:", user);
     
-        const company = await getRecruiterCompany(user?.id);
-        // console.log("company from db:", company);
+        // const company = await getRecruiterCompany(user?.id);
+        // console.log("company from post job page:", company);
     return (
         <div>
             <NewJobPostForm></NewJobPostForm>
