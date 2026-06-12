@@ -6,7 +6,7 @@ export const serverMutation = async(path, data) =>{
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(newCompanyData)
+        body: JSON.stringify(data)
     });
 
     //handle 401,404,403
