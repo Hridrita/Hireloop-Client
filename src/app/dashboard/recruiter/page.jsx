@@ -4,7 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import {Spinner, Button} from "@heroui/react";
 import { FileText, Persons, Thunderbolt, SealCheck, Plus } from "@gravity-ui/icons";
 import { useState } from "react";
-import NewJobPostForm from "./jobs/new/page";
+import NewJobPostForm from "./jobs/new/NewJobPostForm";
 
 const RecruiterDashboardPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);

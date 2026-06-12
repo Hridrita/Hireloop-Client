@@ -1,20 +1,18 @@
 'use server'
 
-import { serverMutation } from "../core/server"
+import { revalidatePath } from "next/cache"
+import { serverMutation, serverUpdate } from "../core/server"
 
 export const createCompany = async (newCompanyData) =>{
-    return serverMutation('/api/companies', newCompanyData)
+    const result = await serverMutation('/api/companies', newCompanyData)
+    revalidatePath('/dashboard/recruiter/company')
+    return result
 }
 
-// const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+export const updateCompany = async (id, updatedData) =>{
+    const result = await serverUpdate(`/api/companies/${id}`, updatedData)
+    revalidatePath('/dashboard/recruiter/company')
+    return result
+}
 
-// export const createCompany = async(newCompanyData) =>{
-//     const res = await fetch(`${baseUrl}/api/companies`,{
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(newCompanyData)
-//     })
-//     return res.json();
-// }
+

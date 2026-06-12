@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
     Form, 
     Fieldset, 
@@ -14,9 +14,8 @@ import {
     Button
 } from '@heroui/react';
 import { ArrowUpToLine, Globe, Factory, ArrowRight, Pencil, ChevronDown } from '@gravity-ui/icons';
-import { createCompany } from '@/lib/actions/companies';
+import { createCompany, updateCompany } from '@/lib/actions/companies';
 import { toast } from 'react-hot-toast';
-
 
 
 const textInputClass = "w-full bg-zinc-900/50 border border-zinc-800 text-white rounded-lg px-3 py-2.5 outline-none placeholder:text-zinc-600 focus:border-zinc-700 transition";
@@ -35,6 +34,10 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
     // Auxiliary Upload States
     const [logoUrl, setLogoUrl] = useState('');
     const [isUploading, setIsUploading] = useState(false);
+
+    useEffect(() => {
+    setCompany(recruiterCompany);
+}, [recruiterCompany]);
 
     
     const handleLogoUpload = async (e) => {
@@ -106,14 +109,16 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
             status: company ? company.status : 'Pending', 
             recruiterId: recruiter.id 
         };
-        setCompany(newCompanyData);
+        // setCompany(newCompanyData);
         console.log("submitted company profile:", newCompanyData);
 
-        const payload = await createCompany(newCompanyData)
+        const payload = company?._id 
+    ? await updateCompany(company._id, newCompanyData)
+    : await createCompany(newCompanyData);
 
-        if(payload.insertedId){
-            toast.success("Company profile created successfully!")
-        }
+        if(payload.insertedId || payload.modifiedCount){
+    toast.success(company?._id ? "Company profile updated!" : "Company profile created successfully!")
+}
         
         setErrors({});
         setIsEditing(false);
