@@ -3,6 +3,7 @@
 import { Card, Chip, Button } from "@heroui/react";
 import { MapPin, DollarSign, Calendar, ExternalLink, Briefcase } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function JobCard({ job }) {
   
@@ -76,16 +77,17 @@ export default function JobCard({ job }) {
         </div>
       </div>
 
-      
+      <Link href={`/browse-jobs/${job._id}`}>
       <Button
-        as="a"
-        href={`/jobs/${job._id?.$oid || job._id}`}
+        as="span"
         fullWidth
         className="font-bold h-11 text-white bg-linear-to-tr from-blue-600 to-purple-600 hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md"
         endContent={<ExternalLink size={16} />}
       >
         Apply Now
       </Button>
+      </Link>
+      
     </Card>
   );
 }
