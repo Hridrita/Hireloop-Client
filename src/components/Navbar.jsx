@@ -60,7 +60,7 @@ export default function Navbar() {
               href="/company"
               className="text-gray-300 hover:text-blue-400 transition-colors"
             >
-              Company
+              Companies
             </Link>
             <Link
               href="/pricing"
@@ -139,11 +139,14 @@ export default function Navbar() {
               Pricing
             </Link>
             <hr className="border-white/10" />
+            <Link href="/dashboard/recruiter" onClick={() => setIsMenuOpen(false)}>
+              Dashboard
+            </Link>
             <Link href="/sign-in" onClick={() => setIsMenuOpen(false)}>
               Sign In
             </Link>
             <Button
-              className="bg-gradient-to-tr from-blue-600 to-purple-600 text-white font-medium rounded-full"
+              className="bg-linear-to-tr from-blue-600 to-purple-600 text-white font-medium rounded-full"
               fullWidth
             >
               Get Started
