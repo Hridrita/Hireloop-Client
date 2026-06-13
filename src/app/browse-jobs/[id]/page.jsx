@@ -242,7 +242,7 @@ const page = async ({ params }) => {
               <p className="text-sm text-[#4B5563] mb-4">
                 Interested in this role? Submit your application now.
               </p>
-              <Link href={'/'}>
+              <Link href={`/browse-jobs/${id}/apply`}>
               <Button
                 radius="lg"
                 size="lg"
@@ -269,7 +269,7 @@ const page = async ({ params }) => {
         className="sm:hidden fixed bottom-0 left-0 right-0 border-t p-4 z-50 shadow-lg"
         style={{ backgroundColor: SOFT_BG, borderColor: SOFT_BORDER }}
       >
-        <Link href={'/'}>
+        <Link href={`/browse-jobs/${id}/apply`}>
         <Button
           radius="lg"
           size="lg"

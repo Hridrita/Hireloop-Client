@@ -8,7 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import toast, { Toaster } from "react-hot-toast";
-import { redirect } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Description, Label, Radio, RadioGroup } from "@heroui/react";
 
 const signUpSchema = z.object({
@@ -23,6 +23,11 @@ const signUpSchema = z.object({
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/sign-in";
 
   const {
     register,
@@ -49,7 +54,10 @@ export default function SignUpPage() {
       toast.error(error.message || "Something went wrong!");
     } else {
       toast.success("Account created successfully!");
-      redirect("/sign-in");
+      
+      
+        router.push(redirectTo);
+      
     }
   };
 
@@ -271,6 +279,7 @@ export default function SignUpPage() {
               .
             </p>
 
+            
             <button
               type="submit"
               disabled={isSubmitting}
@@ -281,12 +290,13 @@ export default function SignUpPage() {
             >
               {isSubmitting ? "Creating account..." : "Create Account"}
             </button>
+            
           </form>
 
           <p className="text-center text-gray-500 text-xs mt-5">
             Already member of hireloop?{" "}
             <Link
-              href="/sign-in"
+              href={`/sign-in?redirect=${redirectTo}`}
               className="text-violet-400 hover:text-violet-300 font-medium transition-colors"
             >
               Sign in
