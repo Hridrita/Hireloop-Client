@@ -122,7 +122,6 @@ const PricingPage = () => {
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
       <div className="max-w-5xl mx-auto px-4 pt-28 pb-24">
-        
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-extrabold mt-2 mb-4">
             Plans that scale with your hiring
@@ -133,7 +132,6 @@ const PricingPage = () => {
           </p>
         </div>
 
-       
         <div className="flex justify-center mb-14">
           <div className="relative bg-zinc-900 border border-zinc-800 rounded-full p-1 flex w-full max-w-sm">
             <span
@@ -144,7 +142,9 @@ const PricingPage = () => {
             <button
               onClick={() => setAudience("seeker")}
               className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-2.5 rounded-full text-sm font-semibold transition-colors ${
-                audience === "seeker" ? "text-white" : "text-zinc-400 hover:text-zinc-200"
+                audience === "seeker"
+                  ? "text-white"
+                  : "text-zinc-400 hover:text-zinc-200"
               }`}
             >
               <Briefcase size={16} />
@@ -153,7 +153,9 @@ const PricingPage = () => {
             <button
               onClick={() => setAudience("recruiter")}
               className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-2.5 rounded-full text-sm font-semibold transition-colors ${
-                audience === "recruiter" ? "text-white" : "text-zinc-400 hover:text-zinc-200"
+                audience === "recruiter"
+                  ? "text-white"
+                  : "text-zinc-400 hover:text-zinc-200"
               }`}
             >
               <Users size={16} />
@@ -162,7 +164,6 @@ const PricingPage = () => {
           </div>
         </div>
 
-        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
           {plans.map((plan) => (
             <div
@@ -180,19 +181,28 @@ const PricingPage = () => {
               )}
 
               <h3 className="text-lg font-bold text-white">{plan.name}</h3>
-              <p className="text-zinc-500 text-sm mt-1 mb-6">{plan.description}</p>
+              <p className="text-zinc-500 text-sm mt-1 mb-6">
+                {plan.description}
+              </p>
 
               <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-4xl font-extrabold text-white">{plan.price}</span>
+                <span className="text-4xl font-extrabold text-white">
+                  {plan.price}
+                </span>
                 <span className="text-zinc-500 text-sm">{plan.period}</span>
               </div>
 
               <ul className="space-y-3 mb-8 flex-1">
                 {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3 text-sm text-zinc-300">
+                  <li
+                    key={feature}
+                    className="flex items-start gap-3 text-sm text-zinc-300"
+                  >
                     <span
                       className={`mt-0.5 flex-shrink-0 rounded-full p-0.5 ${
-                        plan.highlight ? "bg-blue-600/20 text-blue-400" : "bg-zinc-800 text-zinc-400"
+                        plan.highlight
+                          ? "bg-blue-600/20 text-blue-400"
+                          : "bg-zinc-800 text-zinc-400"
                       }`}
                     >
                       <Check size={14} />
@@ -202,20 +212,24 @@ const PricingPage = () => {
                 ))}
               </ul>
 
-              <button
-                className={`w-full py-3 rounded-xl text-sm font-bold transition-colors ${
-                  plan.highlight
-                    ? "bg-blue-600 hover:bg-blue-700 text-white"
-                    : "bg-zinc-800 hover:bg-zinc-700 text-white"
-                }`}
-              >
-                {plan.cta}
-              </button>
+              <div>
+                <form action="/api/checkout_sessions" method="POST">
+                  <section>
+                    <button type="submit" role="link" className={`w-full py-3 rounded-xl text-sm font-bold transition-colors ${
+                    plan.highlight
+                      ? "bg-blue-600 hover:bg-blue-700 text-white"
+                      : "bg-zinc-800 hover:bg-zinc-700 text-white"
+                  }`}>
+                      Checkout
+                    </button>
+                  </section>
+                </form>
+                
+              </div>
             </div>
           ))}
         </div>
 
-        
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-white mb-6 text-center">
             Frequently asked questions
@@ -231,7 +245,9 @@ const PricingPage = () => {
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
                 >
-                  <span className="text-sm font-semibold text-white">{item.q}</span>
+                  <span className="text-sm font-semibold text-white">
+                    {item.q}
+                  </span>
                   <ChevronDown
                     size={18}
                     className={`flex-shrink-0 text-zinc-500 transition-transform duration-200 ${
@@ -241,7 +257,9 @@ const PricingPage = () => {
                 </button>
                 <div
                   className={`px-5 text-sm text-zinc-400 leading-relaxed transition-all duration-200 ${
-                    openFaq === i ? "max-h-40 pb-4 opacity-100" : "max-h-0 pb-0 opacity-0 overflow-hidden"
+                    openFaq === i
+                      ? "max-h-40 pb-4 opacity-100"
+                      : "max-h-0 pb-0 opacity-0 overflow-hidden"
                   }`}
                 >
                   {item.a}

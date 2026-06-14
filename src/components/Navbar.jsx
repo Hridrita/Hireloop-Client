@@ -63,7 +63,7 @@ export default function Navbar() {
               Companies
             </Link>
             <Link
-              href="/pricing"
+              href="/plans"
               className="text-gray-300 hover:text-blue-400 transition-colors"
             >
               Pricing
@@ -135,7 +135,7 @@ export default function Navbar() {
             <Link href="/company" onClick={() => setIsMenuOpen(false)}>
               Company
             </Link>
-            <Link href="/pricing" onClick={() => setIsMenuOpen(false)}>
+            <Link href="/plans" onClick={() => setIsMenuOpen(false)}>
               Pricing
             </Link>
             <hr className="border-white/10" />
