@@ -42,11 +42,14 @@ export default function SignUpPage() {
   const onSubmit = async (formData) => {
     console.log("Form Data:", formData);
 
+    const plan = formData.role === 'seeker' ? 'seeker_free' : 'recruiter_free';
+
     const { data, error } = await authClient.signUp.email({
       name: formData.name,
       role: formData.role,
       email: formData.email,
       password: formData.password,
+      plan: plan
     });
     // console.log("data:", data, "error", error);
 

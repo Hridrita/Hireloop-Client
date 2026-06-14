@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import JobApply from "./JobApply";
 import { getApplicationByApplicant } from "@/lib/api/applications";
 import Link from "next/link";
+import { getPlanById } from "@/lib/api/plans";
 
 const ApplyPage = async ({ params }) => {
   const { id } = await params;
@@ -34,10 +35,11 @@ const ApplyPage = async ({ params }) => {
   }
 
   const applications = await getApplicationByApplicant(user.id);
-  const plan = {
-    name: "Free",
-    maxApplicationsPerMonth: 3,
-  };
+
+  const plan = await getPlanById(user?.plan || 'seeker_free');
+  console.log(plan);
+
+  
 
   const job = await getJobById(id);
 
