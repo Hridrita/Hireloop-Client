@@ -33,16 +33,16 @@ const ApplyPage = async({params}) => {
     const job = await getJobById(id);
 
     return (
-        <div className="min-h-screen bg-zinc-50 pb-20">
+        <div className="min-h-screen bg-zinc-950 pb-20">
             <div className="max-w-4xl mx-auto pt-28 px-4">
                
                 <div className="mb-6">
                     <span className="text-blue-600 font-semibold text-sm">Application Portal</span>
-                    <h2 className="text-3xl font-extrabold text-zinc-900 mt-1">Apply for {job.title}</h2>
+                    <h2 className="text-3xl font-extrabold text-white mt-1">Apply for {job.title}</h2>
                 </div>
                 
                 
-                <JobApply job={job} />
+                <JobApply applicant={user} job={job} />
             </div>
         </div>
     );

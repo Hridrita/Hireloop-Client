@@ -57,7 +57,7 @@ const page = async ({ params }) => {
     : "—";
 
   return (
-    <div className="min-h-screen bg-[#EEF2FF] pt-28 px-4 pb-16">
+    <div className="min-h-screen pt-28 px-4 pb-16">
       <div className="max-w-7xl mx-auto">
         
         <div
@@ -117,14 +117,18 @@ const page = async ({ params }) => {
 
            
             <div className="hidden sm:block shrink-0">
+              <Link href={`/browse-jobs/${id}/apply`}>
               <Button
                 radius="lg"
                 size="lg"
-                className="font-semibold px-8 text-white"
-                style={{ backgroundColor: PRIMARY }}
+                className="font-semibold px-8 text-white
+                bg-linear-to-tr from-blue-600 to-purple-600 hover:from-blue-700 hover:to-indigo-700"
+               
               >
                 Apply Now
               </Button>
+              </Link>
+              
             </div>
           </div>
 
