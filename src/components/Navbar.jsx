@@ -83,7 +83,7 @@ export default function Navbar() {
                 
                   <Avatar>
                     <Avatar.Image alt="John Doe" src={user?.image} />
-                    <Avatar.Fallback className="bg-violet-400 text-white font-bold">
+                    <Avatar.Fallback className="bg-blue-600 text-white font-bold">
                       {user?.name.charAt(0).toUpperCase()}
                     </Avatar.Fallback>
                   </Avatar>
@@ -92,7 +92,7 @@ export default function Navbar() {
                   <Link
                   href={"/sign-in"}
                   onClick={handleSignOut}
-                    className="text-violet-400 hover:text-white transition-colors font-medium"
+                    className="text-blue-600 hover:text-white transition-colors font-medium"
                   >
                     Sign out
                   </Link>
