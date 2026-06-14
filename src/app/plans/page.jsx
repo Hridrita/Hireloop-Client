@@ -5,6 +5,7 @@ import { Check, ChevronDown, Briefcase, Users } from "lucide-react";
 const seekerPlans = [
   {
     name: "Free",
+    id: "seeker_free",
     price: "$0",
     period: "/forever",
     description: "Get started and explore what's out there.",
@@ -19,6 +20,7 @@ const seekerPlans = [
   },
   {
     name: "Pro",
+    id: "seeker_pro",
     price: "$19",
     period: "/month",
     description: "For active job seekers ready to move.",
@@ -33,6 +35,7 @@ const seekerPlans = [
   },
   {
     name: "Premium",
+    id: "seeker_premium",
     price: "$39",
     period: "/month",
     description: "Maximum visibility, zero limits.",
@@ -51,6 +54,7 @@ const seekerPlans = [
 const recruiterPlans = [
   {
     name: "Free",
+    id: "recruiter_free",
     price: "$0",
     period: "/forever",
     description: "Great for a company's first year of hiring.",
@@ -64,6 +68,7 @@ const recruiterPlans = [
   },
   {
     name: "Growth",
+    id: "recruiter_growth",
     price: "$49",
     period: "/month",
     description: "For teams hiring on a regular basis.",
@@ -78,6 +83,7 @@ const recruiterPlans = [
   },
   {
     name: "Enterprise",
+    id: "recruiter_enterprise",
     price: "$149",
     period: "/month",
     description: "For high-volume hiring teams.",
@@ -214,6 +220,7 @@ const PricingPage = () => {
 
               <div>
                 <form action="/api/checkout_sessions" method="POST">
+                 <input type="hidden" name="plan_id" value={plan.id}></input>
                   <section>
                     <button type="submit" role="link" className={`w-full py-3 rounded-xl text-sm font-bold transition-colors ${
                     plan.highlight
