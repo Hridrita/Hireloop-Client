@@ -3,13 +3,15 @@ import { useState, forwardRef, useImperativeHandle } from "react";
 import {
   House,
   Magnifier,
-  Bell,
   Briefcase,
   Envelope,
   Person,
   Gear,
   Xmark,
-  Dice4
+  Dice4,
+  FileText,
+  CreditCard,
+  Bookmark
 } from "@gravity-ui/icons";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,7 +31,7 @@ export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
   }
   const user = session?.user;
 
-  const navItems = [
+  const recruiterNavLinks = [
     { icon: House, label: "Home", href: "/" },
     { icon: Dice4, label: "Dashboard", href: "/dashboard/recruiter" },
     { icon: Magnifier, label: "Jobs", href: "/dashboard/recruiter/jobs" },
@@ -37,7 +39,28 @@ export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
     { icon: Envelope, label: "Messages", href: "/dashboard/messages" },
     { icon: Person, label: "Profile", href: "/dashboard/profile" },
     { icon: Gear, label: "Settings", href: "/dashboard/settings" },
-  ];
+  ]
+
+  
+    const seekerNavLinks = [
+  { icon: House, label: "Home", href: "/" },
+  { icon: Dice4, label: "Dashboard", href: "/dashboard/seeker" },
+  { icon: Magnifier, label: "Find Jobs", href: "/browse-jobs" }, 
+  { icon: Briefcase, label: "Applied Jobs", href: "/dashboard/seeker/applied-jobs" },
+  { icon: Bookmark, label: "Saved Jobs", href: "/dashboard/seeker/saved-jobs" },
+  { icon: FileText, label: "Applications", href: "/dashboard/seeker/applications" },
+  { icon: CreditCard, label: "Billing", href: "/dashboard/seeker/billing" },
+  { icon: Gear, label: "Settings", href: "/dashboard/settings" },
+];
+
+const navLinksMap = {
+  seeker: seekerNavLinks,
+  recruiter: recruiterNavLinks
+}
+  
+
+  const navItems = navLinksMap[user?.role || 'seeker'];
+
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full">

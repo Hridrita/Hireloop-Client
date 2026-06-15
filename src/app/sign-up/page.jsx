@@ -15,7 +15,7 @@ const signUpSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
-  role: z.enum(["seeker", "recuiter"], {
+  role: z.enum(["seeker", "recruiter"], {
     errorMap: () => ({ message: "Please select a role" }),
   }),
 });
@@ -251,12 +251,12 @@ export default function SignUpPage() {
                           <Label>Job Seeker</Label>
                         </Radio.Content>
                       </Radio>
-                      <Radio value="recuiter">
+                      <Radio value="recruiter">
                         <Radio.Control>
                           <Radio.Indicator />
                         </Radio.Control>
                         <Radio.Content>
-                          <Label>Recuiter</Label>
+                          <Label>Rercuiter</Label>
                         </Radio.Content>
                       </Radio>
                     </RadioGroup>

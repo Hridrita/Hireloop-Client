@@ -33,6 +33,14 @@ export default function Navbar() {
 });
   }
 
+  const dashboardLinks = () =>{
+    if(user?.role === "recruiter") return "/dashboard/recruiter";
+    if(user?.role === "seeker") return "/dashboard/seeker";
+    return "/";
+  }
+
+  const dashboardUrl = dashboardLinks();
+
   return (
     <div className="fixed top-0 left-0 right-0 z-50 p-4">
       <nav className="mx-auto max-w-7xl rounded-2xl border border-white/10 bg-black/80 backdrop-blur-md shadow-[0_10px_40px_rgba(59,130,246,0.3)]">
@@ -69,12 +77,12 @@ export default function Navbar() {
               Pricing
             </Link>
 
-            {user ? (<Link
-              href="/dashboard/recruiter"
+            {user && (<Link
+              href={dashboardUrl}
               className="text-gray-300 hover:text-blue-400 transition-colors"
             >
               Dashboard
-            </Link>) : ("")}
+            </Link>)}
           </div>
 
           <div className="hidden md:flex items-center gap-6">
@@ -139,7 +147,7 @@ export default function Navbar() {
               Pricing
             </Link>
             <hr className="border-white/10" />
-            <Link href="/dashboard/recruiter" onClick={() => setIsMenuOpen(false)}>
+            <Link href={dashboardUrl} onClick={() => setIsMenuOpen(false)}>
               Dashboard
             </Link>
             <Link href="/sign-in" onClick={() => setIsMenuOpen(false)}>
