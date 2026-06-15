@@ -7,7 +7,7 @@ const CompanyPage = async() => {
     // console.log("user session in companypage:", user);
 
     const company = await getRecruiterCompany(user?.id);
-    // console.log("company from db:", company);
+     console.log("company before create:", company);
     return (
         <div>
             <CompanyProfile recruiter={user} recruiterCompany={company}></CompanyProfile>

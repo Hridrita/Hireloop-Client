@@ -106,7 +106,7 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
             employeeCount: employeeCount || '1-10 employees',
             description,
             logo: logoUrl || (company ? company.logo : ''),
-            status: company ? company.status : 'Pending', 
+            status: company && company.status ? company.status : 'Pending', 
             recruiterId: recruiter.id 
         };
         // setCompany(newCompanyData);

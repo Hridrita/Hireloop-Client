@@ -39,7 +39,7 @@ export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
     { icon: Briefcase, label: "Company Profile", href: "/dashboard/recruiter/company" },
     { icon: Envelope, label: "Messages", href: "/dashboard/messages" },
     { icon: Person, label: "Profile", href: "/dashboard/profile" },
-    { icon: Gear, label: "Settings", href: "/dashboard/settings" },
+    { icon: Gear, label: "Settings", href: "/dashboard/recruiter/settings" },
   ]
 
   
@@ -50,17 +50,17 @@ export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
   { icon: Briefcase, label: "Applied Jobs", href: "/dashboard/seeker/applications" },
   { icon: Bookmark, label: "Saved Jobs", href: "/dashboard/seeker/saved-jobs" },
   { icon: CreditCard, label: "Billing", href: "/dashboard/seeker/billing" },
-  { icon: Gear, label: "Settings", href: "/dashboard/settings" },
+  { icon: Gear, label: "Settings", href: "/dashboard/seeker/settings" },
 ];
 
 const adminNavLinks = [
   { icon: House, label: "Home", href: "/" },
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard/admin" },
-  { icon: Users, label: "Users", href: "/admin/users" },
-  { icon: Building2, label: "Companies", href: "/admin/companies" },
-  { icon: BriefcaseBusiness, label: "Jobs", href: "/admin/jobs" },
-  { icon: CreditCard, label: "Payments", href: "/admin/payments" },
-  { icon: Settings, label: "Settings", href: "/admin/settings" },
+  { icon: Users, label: "Users", href: "/dashboard/admin/users" },
+  { icon: Building2, label: "Companies", href: "/dashboard/admin/companies" },
+  { icon: BriefcaseBusiness, label: "Jobs", href: "/dashboard/admin/jobs" },
+  { icon: CreditCard, label: "Payments", href: "/dashboard/admin/payments" },
+  { icon: Settings, label: "Settings", href: "/dashboard/admin/settings" },
 ];
 
 const navLinksMap = {

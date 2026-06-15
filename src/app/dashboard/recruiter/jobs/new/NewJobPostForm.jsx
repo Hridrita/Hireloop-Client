@@ -64,13 +64,13 @@ export default function NewJobPostForm({ isOpen, onClose, company }) {
     console.log("job post formdata:", formData);
 
     const payload = {
-            ...formData,
-            companyId: company._id,
-            companyName:company.name,
-            companyLogo:company.logo,
-            status: "active",
-            isPubliclyVisible: true,
-        };
+      ...formData,
+      companyId: company._id,
+      companyName: company.name,
+      companyLogo: company.logo,
+      status: "active",
+      isPubliclyVisible: true,
+    };
 
     //api called here
     const res = await createJob(payload);
@@ -97,193 +97,218 @@ export default function NewJobPostForm({ isOpen, onClose, company }) {
                 Fill out the details below to publish your open position.
               </p>
 
-               <div className="mt-4 inline-flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-zinc-400">
-    <Briefcase size={14} className="text-zinc-500" />
-    Posting as: <span className="font-semibold text-zinc-300">{company?.name}</span>
-    {company?.status === 'Approved' && (
-        <span className="text-emerald-500 font-medium bg-emerald-950/30 px-1.5 py-0.5 rounded border border-emerald-900/50">Approved</span>
-    )}
-</div>
+              <div className="mt-4 inline-flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-zinc-400">
+                <Briefcase size={14} className="text-zinc-500" />
+                Posting as:{" "}
+                <span className="font-semibold text-zinc-300">
+                  {company?.name}
+                </span>
+                {company?.status === "Approved" && (
+                  <span className="text-emerald-500 font-medium bg-emerald-950/30 px-1.5 py-0.5 rounded border border-emerald-900/50">
+                    Approved
+                  </span>
+                )}
+              </div>
             </Modal.Header>
 
             <Modal.Body className="px-6 py-4">
-              <Surface variant="default" className="bg-transparent shadow-none">
-                <form
-                  id="jobForm"
-                  onSubmit={handleSubmit(onSubmit)}
-                  className="flex flex-col gap-4"
+              {company?.status !== "Approved" ? (
+                <div className="flex flex-col items-center text-center py-10 gap-3">
+                  <Briefcase size={32} className="text-zinc-600" />
+                  <h3 className="text-white font-semibold text-lg">
+                    Company Approval Pending
+                  </h3>
+                  <p className="text-zinc-400 text-sm max-w-sm">
+                    Your company profile is under review. You'll be able to post
+                    jobs once an admin approves your company.
+                  </p>
+                </div>
+              ) : (
+                <Surface
+                  variant="default"
+                  className="bg-transparent shadow-none"
                 >
-                  {/* Title */}
-                  <TextField className="w-full" variant="secondary">
-                    <Label className="text-zinc-400 text-sm">Job Title</Label>
-                    <Input
-                      {...register("title")}
-                      className="bg-[#1c1c1e] border-zinc-800 text-white"
-                      placeholder="e.g. Senior Frontend Engineer"
-                    />
-                    {errors.title && (
-                      <p className="text-red-400 text-xs mt-1">
-                        {errors.title.message}
-                      </p>
-                    )}
-                  </TextField>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <form
+                    id="jobForm"
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="flex flex-col gap-4"
+                  >
+                    {/* Title */}
                     <TextField className="w-full" variant="secondary">
-                      <Label className="text-zinc-400 text-sm">Category</Label>
-                      <select
-                        {...register("category")}
-                        className="w-full px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
-                      >
-                        <option value="">Select category</option>
-                        <option value="Technology">Technology</option>
-                        <option value="Design">Design</option>
-                        <option value="Marketing">Marketing</option>
-                        <option value="Finance">Finance</option>
-                        <option value="Sales">Sales</option>
-                      </select>
-                      {errors.category && (
+                      <Label className="text-zinc-400 text-sm">Job Title</Label>
+                      <Input
+                        {...register("title")}
+                        className="bg-[#1c1c1e] border-zinc-800 text-white"
+                        placeholder="e.g. Senior Frontend Engineer"
+                      />
+                      {errors.title && (
                         <p className="text-red-400 text-xs mt-1">
-                          {errors.category.message}
+                          {errors.title.message}
                         </p>
                       )}
                     </TextField>
 
-                    <TextField className="w-full" variant="secondary">
-                      <Label className="text-zinc-400 text-sm">Job Type</Label>
-                      <select
-                        {...register("jobType")}
-                        className="w-full px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
-                      >
-                        <option value="">Select type</option>
-                        <option value="Full-time">Full-time</option>
-                        <option value="Part-time">Part-time</option>
-                        <option value="Contract">Contract</option>
-                        <option value="Internship">Internship</option>
-                      </select>
-                      {errors.jobType && (
-                        <p className="text-red-400 text-xs mt-1">
-                          {errors.jobType.message}
-                        </p>
-                      )}
-                    </TextField>
-                  </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <TextField className="w-full" variant="secondary">
+                        <Label className="text-zinc-400 text-sm">
+                          Category
+                        </Label>
+                        <select
+                          {...register("category")}
+                          className="w-full px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
+                        >
+                          <option value="">Select category</option>
+                          <option value="Technology">Technology</option>
+                          <option value="Design">Design</option>
+                          <option value="Marketing">Marketing</option>
+                          <option value="Finance">Finance</option>
+                          <option value="Sales">Sales</option>
+                        </select>
+                        {errors.category && (
+                          <p className="text-red-400 text-xs mt-1">
+                            {errors.category.message}
+                          </p>
+                        )}
+                      </TextField>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <TextField className="w-full" variant="secondary">
+                        <Label className="text-zinc-400 text-sm">
+                          Job Type
+                        </Label>
+                        <select
+                          {...register("jobType")}
+                          className="w-full px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
+                        >
+                          <option value="">Select type</option>
+                          <option value="Full-time">Full-time</option>
+                          <option value="Part-time">Part-time</option>
+                          <option value="Contract">Contract</option>
+                          <option value="Internship">Internship</option>
+                        </select>
+                        {errors.jobType && (
+                          <p className="text-red-400 text-xs mt-1">
+                            {errors.jobType.message}
+                          </p>
+                        )}
+                      </TextField>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <TextField className="w-full" variant="secondary">
+                        <Label className="text-zinc-400 text-sm">
+                          Salary Range
+                        </Label>
+                        <Input
+                          {...register("salaryRange")}
+                          className="bg-[#1c1c1e] border-zinc-800 text-white"
+                          placeholder="e.g. 50k - 80k"
+                        />
+                        {errors.salaryRange && (
+                          <p className="text-red-400 text-xs mt-1">
+                            {errors.salaryRange.message}
+                          </p>
+                        )}
+                      </TextField>
+
+                      <TextField className="w-full" variant="secondary">
+                        <div className="flex justify-between items-center mb-2">
+                          <Label className="text-zinc-400 text-sm">
+                            Location
+                          </Label>
+                          <Switch
+                            aria-label="Enable notifications"
+                            isSelected={isRemote}
+                            onChange={(e) => setValue("isRemote", e)}
+                            size="sm"
+                          >
+                            <Switch.Control>
+                              <Switch.Thumb />
+                            </Switch.Control>
+                            <Switch.Content>
+                              <Label className="text-xs text-zinc-400 font-medium">
+                                Remote
+                              </Label>
+                            </Switch.Content>
+                          </Switch>
+                        </div>
+
+                        <Input
+                          {...register("location")}
+                          disabled={isRemote}
+                          className={`bg-[#1c1c1e] border-zinc-800 text-white ${isRemote ? "opacity-50" : ""}`}
+                          placeholder={
+                            isRemote ? "Remote" : "e.g. Dhaka, Bangladesh"
+                          }
+                        />
+                        {errors.location && (
+                          <p className="text-red-400 text-xs mt-1">
+                            {errors.location.message}
+                          </p>
+                        )}
+                      </TextField>
+                    </div>
+
                     <TextField className="w-full" variant="secondary">
                       <Label className="text-zinc-400 text-sm">
-                        Salary Range
+                        Application Deadline
                       </Label>
                       <Input
-                        {...register("salaryRange")}
-                        className="bg-[#1c1c1e] border-zinc-800 text-white"
-                        placeholder="e.g. 50k - 80k"
+                        {...register("date")}
+                        type="date"
+                        className="bg-[#1c1c1e] border-zinc-800 text-zinc-400"
                       />
-                      {errors.salaryRange && (
+                      {errors.date && (
                         <p className="text-red-400 text-xs mt-1">
-                          {errors.salaryRange.message}
+                          {errors.date.message}
                         </p>
                       )}
                     </TextField>
 
                     <TextField className="w-full" variant="secondary">
-                      <div className="flex justify-between items-center mb-2">
-                        <Label className="text-zinc-400 text-sm">
-                          Location
-                        </Label>
-                        <Switch
-                          aria-label="Enable notifications"
-                          isSelected={isRemote}
-                          onChange={(e) => setValue("isRemote", e)}
-                          size="sm"
-                        >
-                          <Switch.Control>
-                            <Switch.Thumb />
-                          </Switch.Control>
-                          <Switch.Content>
-                            <Label className="text-xs text-zinc-400 font-medium">
-                              Remote
-                            </Label>
-                          </Switch.Content>
-                        </Switch>
-                      </div>
-
-                      <Input
-                        {...register("location")}
-                        disabled={isRemote}
-                        className={`bg-[#1c1c1e] border-zinc-800 text-white ${isRemote ? "opacity-50" : ""}`}
-                        placeholder={
-                          isRemote ? "Remote" : "e.g. Dhaka, Bangladesh"
-                        }
+                      <Label className="text-zinc-400 text-sm">
+                        Responsibilities
+                      </Label>
+                      <textarea
+                        {...register("responsibilities")}
+                        className="w-full h-24 px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
+                        placeholder="Outline the core everyday responsibilities..."
                       />
-                      {errors.location && (
+                      {errors.responsibilities && (
                         <p className="text-red-400 text-xs mt-1">
-                          {errors.location.message}
+                          {errors.responsibilities.message}
                         </p>
                       )}
                     </TextField>
-                  </div>
 
-                  <TextField className="w-full" variant="secondary">
-                    <Label className="text-zinc-400 text-sm">
-                      Application Deadline
-                    </Label>
-                    <Input
-                      {...register("date")}
-                      type="date"
-                      className="bg-[#1c1c1e] border-zinc-800 text-zinc-400"
-                    />
-                    {errors.date && (
-                      <p className="text-red-400 text-xs mt-1">
-                        {errors.date.message}
-                      </p>
-                    )}
-                  </TextField>
+                    <TextField className="w-full" variant="secondary">
+                      <Label className="text-zinc-400 text-sm">
+                        Requirements
+                      </Label>
+                      <textarea
+                        {...register("requirements")}
+                        className="w-full h-24 px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
+                        placeholder="List required experience, skills and certifications..."
+                      />
+                      {errors.requirements && (
+                        <p className="text-red-400 text-xs mt-1">
+                          {errors.requirements.message}
+                        </p>
+                      )}
+                    </TextField>
 
-                  <TextField className="w-full" variant="secondary">
-                    <Label className="text-zinc-400 text-sm">
-                      Responsibilities
-                    </Label>
-                    <textarea
-                      {...register("responsibilities")}
-                      className="w-full h-24 px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
-                      placeholder="Outline the core everyday responsibilities..."
-                    />
-                    {errors.responsibilities && (
-                      <p className="text-red-400 text-xs mt-1">
-                        {errors.responsibilities.message}
-                      </p>
-                    )}
-                  </TextField>
-
-                  <TextField className="w-full" variant="secondary">
-                    <Label className="text-zinc-400 text-sm">
-                      Requirements
-                    </Label>
-                    <textarea
-                      {...register("requirements")}
-                      className="w-full h-24 px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
-                      placeholder="List required experience, skills and certifications..."
-                    />
-                    {errors.requirements && (
-                      <p className="text-red-400 text-xs mt-1">
-                        {errors.requirements.message}
-                      </p>
-                    )}
-                  </TextField>
-
-                  <TextField className="w-full" variant="secondary">
-                    <Label className="text-zinc-400 text-sm">
-                      Benefits (Optional)
-                    </Label>
-                    <textarea
-                      {...register("benefits")}
-                      className="w-full h-24 px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
-                      placeholder="Perks, healthcare, equity, remote stipends..."
-                    />
-                  </TextField>
-                </form>
-              </Surface>
+                    <TextField className="w-full" variant="secondary">
+                      <Label className="text-zinc-400 text-sm">
+                        Benefits (Optional)
+                      </Label>
+                      <textarea
+                        {...register("benefits")}
+                        className="w-full h-24 px-3 py-2 rounded-lg border border-zinc-800 bg-[#1c1c1e] text-white focus:border-zinc-600 outline-none transition text-sm"
+                        placeholder="Perks, healthcare, equity, remote stipends..."
+                      />
+                    </TextField>
+                  </form>
+                </Surface>
+              )}
             </Modal.Body>
 
             <Modal.Footer className="px-6 pb-6 pt-2 flex flex-col sm:flex-row gap-3">
