@@ -51,6 +51,7 @@ const CompanyRow = ({ company }) => {
         {company.name}
       </td>
       <td className="py-3 px-4 text-gray-400 capitalize">{company.industry}</td>
+      <td className="py-3 px-4 text-gray-400 capitalize">{company.jobsCount}</td>
       <td className="py-3 px-4 text-gray-400">{company.location}</td>
       <td className="py-3 px-4">
         <span

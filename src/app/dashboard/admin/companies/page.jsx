@@ -16,6 +16,7 @@ const AdminCompaniesPage = async () => {
           <tr className="text-gray-400 border-b border-gray-800">
             <th className="text-left py-3 px-4">Company Name</th>
             <th className="text-left py-3 px-4">Industry</th>
+            <th className="text-left py-3 px-4">Jobs</th>
             <th className="text-left py-3 px-4">Location</th>
             <th className="text-left py-3 px-4">Status</th>
             <th className="text-left py-3 px-4">Date Submitted</th>
