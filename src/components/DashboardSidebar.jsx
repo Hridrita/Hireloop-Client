@@ -17,6 +17,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { Spinner } from "@heroui/react";
+import { BriefcaseBusiness, Building2, LayoutDashboard, Settings, Users } from "lucide-react";
 
 export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
   const { data: session, isPending } = authClient.useSession();
@@ -52,9 +53,20 @@ export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
   { icon: Gear, label: "Settings", href: "/dashboard/settings" },
 ];
 
+const adminNavLinks = [
+  { icon: House, label: "Home", href: "/" },
+  { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard/admin" },
+  { icon: Users, label: "Users", href: "/admin/users" },
+  { icon: Building2, label: "Companies", href: "/admin/companies" },
+  { icon: BriefcaseBusiness, label: "Jobs", href: "/admin/jobs" },
+  { icon: CreditCard, label: "Payments", href: "/admin/payments" },
+  { icon: Settings, label: "Settings", href: "/admin/settings" },
+];
+
 const navLinksMap = {
   seeker: seekerNavLinks,
-  recruiter: recruiterNavLinks
+  recruiter: recruiterNavLinks,
+  admin: adminNavLinks
 }
   
 

@@ -36,6 +36,7 @@ export default function Navbar() {
   const dashboardLinks = () =>{
     if(user?.role === "recruiter") return "/dashboard/recruiter";
     if(user?.role === "seeker") return "/dashboard/seeker";
+    if(user?.role === "admin") return "/dashboard/admin";
     return "/";
   }
 
