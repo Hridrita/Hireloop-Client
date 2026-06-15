@@ -46,9 +46,8 @@ export function DashboardSidebar({ onToggle, isOpen, setIsOpen }) {
   { icon: House, label: "Home", href: "/" },
   { icon: Dice4, label: "Dashboard", href: "/dashboard/seeker" },
   { icon: Magnifier, label: "Find Jobs", href: "/browse-jobs" }, 
-  { icon: Briefcase, label: "Applied Jobs", href: "/dashboard/seeker/applied-jobs" },
+  { icon: Briefcase, label: "Applied Jobs", href: "/dashboard/seeker/applications" },
   { icon: Bookmark, label: "Saved Jobs", href: "/dashboard/seeker/saved-jobs" },
-  { icon: FileText, label: "Applications", href: "/dashboard/seeker/applications" },
   { icon: CreditCard, label: "Billing", href: "/dashboard/seeker/billing" },
   { icon: Gear, label: "Settings", href: "/dashboard/settings" },
 ];
