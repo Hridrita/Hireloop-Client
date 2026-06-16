@@ -1,4 +1,4 @@
-import { serverfetch } from "../core/server";
+import { protectedFetch, serverfetch } from "../core/server";
 
 export const dynamic = 'force-dynamic';
 
@@ -7,5 +7,7 @@ export const getRecruiterCompany = async(recruiterId) =>{
 }
 
 export const getCompanies = async()=>{
-    return serverfetch(`/api/companies`);
+    // return serverfetch(`/api/companies`);
+
+    return protectedFetch(`/api/companies`);
 }

@@ -1,3 +1,6 @@
+import { headers } from "next/headers";
+import { getUserToken } from "./session";
+
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const serverfetch = async(path) =>{
@@ -8,11 +11,29 @@ export const serverfetch = async(path) =>{
     return text ? JSON.parse(text) : null;
 }
 
+export const authHeader = async() =>{
+    const token = await getUserToken();
+    const header = {
+        authorization: `Bearer ${token}`
+    }
+    return token ? header : {};
+}
+
+export const protectedFetch = async(path) =>{
+    const res = await fetch(`${baseUrl}${path}`,
+        {
+        headers: await authHeader()
+    }
+    );
+    return res.json()
+}
+
 export const serverMutation = async(path, data) =>{
     const res = await fetch(`${baseUrl}${path}`,{
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            ... await authHeader()
         },
         body: JSON.stringify(data)
     });
@@ -25,7 +46,10 @@ export const serverMutation = async(path, data) =>{
 export const serverUpdate = async(path, data) =>{
     const res = await fetch(`${baseUrl}${path}`,{
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            ... await authHeader()
+         },
         body: JSON.stringify(data)
     });
     return res.json();
