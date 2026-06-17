@@ -85,7 +85,7 @@ const navLinksMap = {
         </button>
       </div>
       <div className="flex items-center gap-3 px-5 py-4 border-b border-white/10">
-        <div className="w-9 h-9 rounded-full bg-violet-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
+        <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
           {user?.name?.charAt(0).toUpperCase()}
         </div>
         <div className="flex flex-col min-w-0">

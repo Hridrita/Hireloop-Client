@@ -1,5 +1,7 @@
 // import { getUserToken } from "./session";
 
+import { redirect } from "next/navigation";
+
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const serverfetch = async(path) =>{
@@ -27,7 +29,7 @@ export const protectedFetch = async(path, token) =>{
         {
         headers: authHeader(token)
     });
-    return res.json()
+    return handleStatusCode(res);
 }
 
 export const serverMutation = async(path, data, token) =>{
@@ -35,13 +37,12 @@ export const serverMutation = async(path, data, token) =>{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            ...authHeader(token)
+             ...authHeader(token)
         },
         body: JSON.stringify(data)
     });
-
-    //handle 401,404,403
-    return res.json();
+     
+    return handleStatusCode(res);
 }
 
 
@@ -50,9 +51,21 @@ export const serverUpdate = async(path, data, token) =>{
         method: 'PATCH',
         headers: { 
             'Content-Type': 'application/json',
-            ...authHeader(token)
+              ...authHeader(token)
          },
         body: JSON.stringify(data)
     });
-    return res.json();
+
+    return handleStatusCode(res);
+    
+}
+
+const handleStatusCode = res =>{
+    if(res.status === 401){
+        redirect("/unauthorized")
+     }else if(res.status === 403) {
+        redirect('/forbidden')
+     }
+     return res.json()
+
 }
