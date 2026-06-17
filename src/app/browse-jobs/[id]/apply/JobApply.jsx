@@ -1,11 +1,13 @@
 "use client";
 import { submitApplication } from "@/lib/actions/applications";
+import { authClient } from "@/lib/auth-client";
 import { Button, Input } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-const JobApply = ({ applicant, job }) => {
+
+const JobApply = ({ applicant, job, token }) => {
   const router = useRouter();
   const {
     register,
@@ -28,7 +30,7 @@ const JobApply = ({ applicant, job }) => {
     };
     console.log("Applying with:", submissionData);
 
-    const res = await submitApplication(submissionData);
+    const res = await submitApplication(submissionData,token);
 
     if(res.insertedId){
        toast.success("Application submitted successfully!");

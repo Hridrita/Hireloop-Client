@@ -1,5 +1,4 @@
-import { headers } from "next/headers";
-import { getUserToken } from "./session";
+// import { getUserToken } from "./session";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -11,29 +10,32 @@ export const serverfetch = async(path) =>{
     return text ? JSON.parse(text) : null;
 }
 
-export const authHeader = async() =>{
-    const token = await getUserToken();
-    const header = {
-        authorization: `Bearer ${token}`
-    }
-    return token ? header : {};
+// export const authHeader = async() =>{
+//     const token = await getUserToken();
+//     const header = {
+//         authorization: `Bearer ${token}`
+//     }
+//     return token ? header : {};
+// }
+
+export const authHeader = (token) =>{ 
+    return token ? { authorization: `Bearer ${token}` } : {};
 }
 
-export const protectedFetch = async(path) =>{
+export const protectedFetch = async(path, token) =>{
     const res = await fetch(`${baseUrl}${path}`,
         {
-        headers: await authHeader()
-    }
-    );
+        headers: authHeader(token)
+    });
     return res.json()
 }
 
-export const serverMutation = async(path, data) =>{
+export const serverMutation = async(path, data, token) =>{
     const res = await fetch(`${baseUrl}${path}`,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            ... await authHeader()
+            ...authHeader(token)
         },
         body: JSON.stringify(data)
     });
@@ -43,12 +45,12 @@ export const serverMutation = async(path, data) =>{
 }
 
 
-export const serverUpdate = async(path, data) =>{
+export const serverUpdate = async(path, data, token) =>{
     const res = await fetch(`${baseUrl}${path}`,{
         method: 'PATCH',
         headers: { 
             'Content-Type': 'application/json',
-            ... await authHeader()
+            ...authHeader(token)
          },
         body: JSON.stringify(data)
     });

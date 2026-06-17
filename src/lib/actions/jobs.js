@@ -2,7 +2,7 @@
 
 import { serverMutation } from "../core/server"
 
-export const createJob = async(newJobData) =>{
-    return serverMutation('/api/jobs', newJobData);
+export const createJob = async(newJobData,token) =>{
+    return serverMutation('/api/jobs', newJobData,token);
 }
 

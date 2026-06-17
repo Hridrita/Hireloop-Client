@@ -3,8 +3,10 @@ import { redirect } from 'next/navigation';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { createSubscription } from '@/lib/actions/subscriptions';
+import { getUserToken } from '@/lib/core/session';
 
 export default async function Success({ searchParams }) {
+  const token = await getUserToken();
   const { session_id } = await searchParams;
 
   if (!session_id)
@@ -29,7 +31,7 @@ export default async function Success({ searchParams }) {
         planId: metadata.planId
     }
 
-    const result = await createSubscription(subsInfo)
+    const result = await createSubscription(subsInfo,token);
     
     return (
       <div className="min-h-screen bg-zinc-950 flex items-center justify-center p-6">
@@ -49,10 +51,10 @@ export default async function Success({ searchParams }) {
 
           <div className="space-y-3">
             <Link 
-              href="/dashboard"
+              href="/"
               className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition"
             >
-              Go to Dashboard <ArrowRight size={18} />
+              Go to Home <ArrowRight size={18} />
             </Link>
             
             <a 

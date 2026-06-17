@@ -1,10 +1,11 @@
-import { getUserSession } from '@/lib/core/session';
+import { getUserSession, getUserToken } from '@/lib/core/session';
 import { getRecruiterCompany } from '@/lib/api/companies';
 import RecruiterDashboardClient from './RecruiterDashboardClient';
 
 const RecruiterDashboardPage = async () => {
     const user = await getUserSession();
-    const company = await getRecruiterCompany(user?.id);
+    const token = await getUserToken();
+    const company = await getRecruiterCompany(user?.id,token);
 
      console.log("company:", company); 
 

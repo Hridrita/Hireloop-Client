@@ -15,6 +15,7 @@ import NewJobPostForm from "./jobs/new/NewJobPostForm";
 const RecruiterDashboardClient = ({ company }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: session, isPending } = authClient.useSession();
+  const token = session?.session?.token;
 
   if (isPending) {
     return (
@@ -60,6 +61,7 @@ const RecruiterDashboardClient = ({ company }) => {
       <NewJobPostForm
         isOpen={isModalOpen}
         company={company}
+        token={token}
         onClose={() => setIsModalOpen(false)}
       ></NewJobPostForm>
     </div>

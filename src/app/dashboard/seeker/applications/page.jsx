@@ -1,11 +1,13 @@
 import { getApplicationByApplicant } from '@/lib/api/applications';
-import { getUserSession } from '@/lib/core/session';
+import { getUserSession, getUserToken } from '@/lib/core/session';
 import React from 'react';
 import Link from 'next/link';
 
 const page = async () => {
     const user = await getUserSession();
-    const jobs = await getApplicationByApplicant(user.id);
+    const token = await getUserToken();
+    const jobs = await getApplicationByApplicant(user.id, token);
+    // console.log("user.id:", user.id, "user._id:", user._id);
 
     
     const getStatusColor = (status) => {

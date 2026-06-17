@@ -1,9 +1,11 @@
 import { getCompanies } from "@/lib/api/companies";
 import CompanyRow from "./CompanyRow";
+import { getUserToken } from "@/lib/core/session";
 
 
 const AdminCompaniesPage = async () => {
-  const companies = await getCompanies();
+  const token = await getUserToken();
+  const companies = await getCompanies(token);
 
   return (
     <div className="bg-[#111] text-white p-6 rounded-xl">
@@ -25,7 +27,7 @@ const AdminCompaniesPage = async () => {
         </thead>
         <tbody>
           {companies.map((company) => (
-            <CompanyRow key={company._id?.$oid || company._id} company={company} />
+            <CompanyRow key={company._id?.$oid || company._id} company={company} token={token}/>
           ))}
         </tbody>
       </table>

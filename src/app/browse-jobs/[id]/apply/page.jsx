@@ -13,8 +13,16 @@ const ApplyPage = async ({ params }) => {
     headers: await headers(),
   });
 
+  // console.log("session:", JSON.stringify(sessionResponse, null, 2));
+
   const user =
     sessionResponse?.data?.session?.user || sessionResponse?.user || null;
+
+  const token =
+    sessionResponse?.data?.session?.session?.token ||
+    sessionResponse?.session?.token ||
+    null;
+  // console.log("user.id:", user.id, "user._id:", user._id);
 
   if (!user) {
     redirect(`/sign-in?redirect=/browse-jobs/${id}/apply`);
@@ -34,12 +42,10 @@ const ApplyPage = async ({ params }) => {
     );
   }
 
-  const applications = await getApplicationByApplicant(user.id);
+  const applications = await getApplicationByApplicant(user.id, token);
 
-  const plan = await getPlanById(user?.plan || 'seeker_free');
-  console.log(plan);
-
-  
+  const plan = await getPlanById(user?.plan || "seeker_free");
+  console.log("Plan Object:", plan);
 
   const job = await getJobById(id);
 
@@ -75,7 +81,7 @@ const ApplyPage = async ({ params }) => {
         </div>
 
         {applications.length < plan.maxApplicationsPerMonth ? (
-          <JobApply applicant={user} job={job} />
+          <JobApply applicant={user} job={job} token={token}/>
         ) : (
           <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-10 text-center mt-8">
             <div className="w-14 h-14 rounded-2xl bg-blue-600/10 flex items-center justify-center mx-auto mb-4">
@@ -84,7 +90,7 @@ const ApplyPage = async ({ params }) => {
             <h3 className="text-xl font-bold text-white mb-2">
               Monthly limit reached
             </h3>
-            <p className="text-zinc-400 text-sm leading-relaxed mb-6 max-w-sm mx-auto">
+            <p className="text-zinc-300 font-bold text-sm leading-relaxed mb-6 max-w-sm mx-auto">
               You&apos;ve used all {plan.maxApplicationsPerMonth} applications
               on the {plan.name} plan. Upgrade to apply for more positions.
             </p>

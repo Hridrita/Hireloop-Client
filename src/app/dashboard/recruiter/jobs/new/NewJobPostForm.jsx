@@ -42,7 +42,7 @@ const jobSchema = z
     },
   );
 
-export default function NewJobPostForm({ isOpen, onClose, company }) {
+export default function NewJobPostForm({ isOpen, onClose, company, token }) {
   const {
     register,
     handleSubmit,
@@ -73,7 +73,7 @@ export default function NewJobPostForm({ isOpen, onClose, company }) {
     };
 
     //api called here
-    const res = await createJob(payload);
+    const res = await createJob(payload,token);
 
     if (res.insertedId) {
       toast.success("Job posted successfully!");

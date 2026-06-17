@@ -10,13 +10,13 @@ const statusStyles = {
   rejected: "bg-red-500/10 text-red-500",
 };
 
-const CompanyRow = ({ company }) => {
+const CompanyRow = ({ company, token }) => {
   const status = company.status?.toLowerCase();
   const companyId = company._id?.$oid || company._id;
 
   const handleApprove = async(id) => {
     // implement
-    const result = await updateCompany(id, {status: "Approved"});
+    const result = await updateCompany(id, {status: "Approved"},token);
     if(result.modifiedCount){
         toast.success(`${company.name} has been approved`)
     }
@@ -25,7 +25,7 @@ const CompanyRow = ({ company }) => {
 
   const handleReject = async(id) => {
     // implement
-    const result = await updateCompany(id, {status: "Rejected"});
+    const result = await updateCompany(id, {status: "Rejected"},token);
     if(result.modifiedCount){
         toast.error(`${company.name} has been rejected`)
     }

@@ -1,8 +1,9 @@
-import { getUserSession } from '@/lib/core/session';
+import { getUserSession, getUserToken } from '@/lib/core/session';
 import NewJobPostForm from './NewJobPostForm';
 import { getRecruiterCompany } from '@/lib/api/companies';
 
 const PostJobPage = async() => {
+    const token = await getUserToken();
     const user = await getUserSession();
         // console.log("user session in post job page:", user);
     
@@ -10,7 +11,7 @@ const PostJobPage = async() => {
         // console.log("company from post job page:", company);
     return (
         <div>
-            <NewJobPostForm></NewJobPostForm>
+            <NewJobPostForm token={token}></NewJobPostForm>
         </div>
     );
 };
